@@ -5,14 +5,16 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js",
+    "start": "nodemon --watch index.js",
     "initdb": "node initdb.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@hapi/boom": "^9.1.4",
     "@hapi/hapi": "^20.2.1",
+    "@hapi/joi": "^17.1.1",
     "dotenv": "^10.0.0",
     "postgres": "^1.0.2"
   },

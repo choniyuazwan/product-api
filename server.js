@@ -1,31 +1,29 @@
 "use strict";
 
-const dotenv = require( "dotenv" );
 const Hapi = require( "@hapi/hapi" );
-
+const registerPlugins = require( "./plugins" ).register;
 const routes = require( "./routes" );
 
-const createServer = async () => {
+const createServer = async config => {
+
   const server = Hapi.server( {
-    port: process.env.PORT || 3000,
-    host: process.env.HOST || "localhost"
+    port: config.port,
+    host: config.host,
+    routes: {
+      validate: {
+        failAction: ( request, h, err ) => {
+          throw err;
+        }
+      }
+    }
   } );
 
+  await registerPlugins( server, config );
   server.route( routes );
 
   return server;
 };
 
-const init = async () => {
-  dotenv.config();
-  const server = await createServer();
-  await server.start();
-  console.log( "Server running on %s", server.info.uri );
+module.exports = {
+  createServer
 };
-
-process.on( "unhandledRejection", ( err ) => {
-  console.log( err );
-  process.exit( 1 );
-} );
-
-init();
