@@ -3,6 +3,8 @@
 const boom = require("@hapi/boom");
 const joi = require("@hapi/joi");
 
+const config = {cors: {origin: ['*']}};
+
 const list = {
   method: "GET",
   path: "/products",
@@ -14,7 +16,8 @@ const list = {
       console.log(err);
       return boom.serverUnavailable();
     }
-  }
+  },
+  config
 };
 
 const add = {
